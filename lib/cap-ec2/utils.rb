@@ -22,15 +22,16 @@ module CapEC2
 
     def self.contact_point_mapping
       {
-        :public_dns => :public_dns_name,
-        :public_ip => :public_ip_address,
-        :private_ip => :private_ip_address
+        :public_dns => 'public_dns_name',
+        :public_ip => 'public_ip_address',
+        :private_ip => 'private_ip_address',
+        :tag_name => 'tags.to_a.to_h["Name"]'
       }
     end
 
     def self.contact_point(instance)
       ec2_interface = contact_point_mapping[fetch(:ec2_contact_point)]
-      return instance.send(ec2_interface) if ec2_interface
+      return instance.instance_eval(ec2_interface) if ec2_interface
 
       instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
     end
