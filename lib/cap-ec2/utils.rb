@@ -22,15 +22,21 @@ module CapEC2
 
     def self.contact_point_mapping
       {
-        :public_dns => :public_dns_name,
-        :public_ip => :public_ip_address,
-        :private_ip => :private_ip_address
+        :public_dns => 'public_dns_name',
+        :public_ip => 'public_ip_address',
+        :private_ip => 'private_ip_address',
+        :tag_name => 'tags.to_a.to_h["Name"]'
       }
     end
 
     def self.contact_point(instance)
       ec2_interface = contact_point_mapping[fetch(:ec2_contact_point)]
-      return instance.send(ec2_interface) if ec2_interface
+      if fetch(:ec2_contact_point) == :tag_name
+        ec2_host_domain = fetch(:ec2_host_domain)
+      else
+        ec2_host_domain = ''
+      end
+      return "#{instance.instance_eval(ec2_interface)}#{ec2_host_domain}" if ec2_interface
 
       instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
     end
@@ -40,6 +46,7 @@ module CapEC2
       if config_location && File.exists?(config_location)
         config = YAML.load_file fetch(:ec2_config)
         if config
+          set :ec2_host_domain, config['host_domain'] if config['host_domain']
           set :ec2_project_tag, config['project_tag'] if config['project_tag']
           set :ec2_roles_tag, config['roles_tag'] if config['roles_tag']
           set :ec2_stages_tag, config['stages_tag'] if config['stages_tag']
