@@ -23,6 +23,8 @@ namespace :load do
 
     set :ec2_config, 'config/ec2.yml'
 
+    set :ec2_host_domain, '.test'
+
     set :ec2_project_tag, 'Project'
     set :ec2_roles_tag, 'Roles'
     set :ec2_stages_tag, 'Stages'
