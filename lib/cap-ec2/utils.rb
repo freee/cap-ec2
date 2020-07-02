@@ -48,7 +48,9 @@ module CapEC2
       end
       return "#{instance.instance_eval(ec2_interface)}#{ec2_host_domain}" if ec2_interface
 
-      instance.public_dns_name || instance.public_ip_address || instance.private_ip_address
+      return instance.public_dns_name unless instance.public_dns_name.nil? or instance.public_dns_name.empty?
+      return instance.public_ip_address unless instance.public_ip_address.nil? or instance.public_ip_address.empty?
+      return instance.private_ip_address
     end
 
     def load_config
