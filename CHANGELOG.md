@@ -1,5 +1,23 @@
 # Cap-EC2 changelog
 
+## 1.1.2
+
+* Allow using aws-sdk v3 [@magnusvk](https://github.com/magnusvk)
+* Fix NoMethodError undefined method call for Hash [@ur5us](https://github.com/ur5us)
+* Allow tag value delimiter to be configurable [@erez-rabih](https://github.com/erez-rabih)
+
+## 1.1.1
+
+Require aws-sdk v2 instead of v1
+
+* Require aws-sdk v2 instead of v1 [@hajder](https://github.com/hajder)
+
+## 1.1.0
+
+Upgrade to AWS's v2 SDK
+
+* Upgrade to AWS's v2 SDK [@kylev](https://github.com/kylev)
+
 ## 1.0.0
 
 Cap-EC2 is pretty stable, and the rate of PRs has decreased, so I've
